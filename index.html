@@ -16,7 +16,7 @@
       src=""
       muted="true"
       playsinline="true"
-      style="margin-top:20px;width: 90vw; height: 50vh;border: 1px solid red"
+      style="margin-top: 20px; width: 90vw; height: 50vh; border: 1px solid red"
     ></video>
     <script src="eruda.js"></script>
     <script class="init-eruda">
@@ -24,34 +24,31 @@
     </script>
 
     <script>
-      const videoEl = document.querySelector("video");
+      const videoEl = document.querySelector('video');
 
       const playVideo = async (videoEl, source, timeout) => {
         return new Promise((rs, rj) => {
-          if (!videoEl) rj(new Error("Invalid video element."));
-          if (!source) rj(new Error("Invalid source."));
+          if (!videoEl) rj(new Error('Invalid video element.'));
+          if (!source) rj(new Error('Invalid source.'));
           videoEl.onloadedmetadata = async () => {
             videoEl.onloadedmetadata = null;
             await videoEl.play();
             rs(videoEl);
           };
-          if (typeof source == "string" || source instanceof String) {
+          if (typeof source == 'string' || source instanceof String) {
             videoEl.src = source;
           } else {
             videoEl.srcObject = source;
           }
           if (timeout !== undefined) {
-            setTimeout(
-              () => rj(new Error("Failed to play video. Timeout.")),
-              timeout
-            );
+            setTimeout(() => rj(new Error('Failed to play video. Timeout.')), timeout);
           }
         });
       };
 
       const logInfo = () => {
-        console.log("----------------------");
-        console.log("mediaStream = ");
+        console.log('----------------------');
+        console.log('mediaStream = ');
         console.log(mediaStream);
         if (mediaStream) {
           console.log(`mediaStream.active = `);
@@ -73,8 +70,8 @@
         try {
           mediaStream = await navigator.mediaDevices.getUserMedia({
             video: {
-                facingMode: 'environment'
-            }
+              facingMode: 'environment',
+            },
           });
           await playVideo(videoEl, mediaStream, 4000);
         } catch (ex) {
@@ -86,16 +83,16 @@
         }
       })();
 
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("./service-worker.js");
-      }
+      // if ("serviceWorker" in navigator) {
+      //   navigator.serviceWorker.register("./service-worker.js");
+      // }
 
-      document.querySelector("button").onclick = async () => {
+      document.querySelector('button').onclick = async () => {
         try {
           mediaStream = await navigator.mediaDevices.getUserMedia({
             video: {
-                facingMode: 'environment'
-            }
+              facingMode: 'environment',
+            },
           });
           await playVideo(videoEl, mediaStream, 4000);
         } catch (ex) {
